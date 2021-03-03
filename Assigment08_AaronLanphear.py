@@ -13,6 +13,7 @@ strFileName = 'products.txt'
 lstOfProductObjects = []
 
 class Product:
+    testing change tracking
     """Stores data about a product:
 
     properties:
