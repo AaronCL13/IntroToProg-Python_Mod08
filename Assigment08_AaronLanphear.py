@@ -13,19 +13,57 @@ strFileName = 'products.txt'
 lstOfProductObjects = []
 
 
-class Product:
+class Product(object):
     """Stores data about a product:
 
     properties:
-        product_name: (string) with the products's  name
-        product_price: (float) with the products's standard price
+        product_name: (string) with the product's  name
+        product_price: (float) with the product's standard price
     methods:
+        __init__(self, product_name="", product_price=0.0): initializes object with product name and product price
+        product_name(self, product_name): sets product name
+        product_price(self, product_price): sets product price
     changelog: (When,Who,What)
         RRoot,1.1.2030,Created Class
-        <Your Name>,<Today's Date>,Modified code to complete assignment 8
+        ALanphear,3.3.21,Modified code to complete assignment 8
     """
-    pass
-    # TODO: Add Code to the Product class
+
+    # Constructor - Initializes each time an object is created
+    def __init__(self, product_name="", product_price=0.0):
+        self.__product_name = product_name  # private attribute
+        self.__product_price = product_price  # private attribute
+
+    @property  # Getter/Accessor
+    def product_name(self):
+        return self.__product_name
+
+    @property  # Getter/Accessor
+    def product_price(self):
+        return self.__product_price
+
+    @product_name.setter  # Setter/Mutator
+    def product_name(self, product_name):
+        if product_name == "":
+            print("The product name cannot be blank.")
+        elif str(product_name).isnumeric():
+            print("The product name cannot be a number.")
+        else:
+            self.__product_name = product_name
+
+    @product_price.setter  # Setter/Mutator
+    def product_price(self, product_price):
+        if str(product_price).isalpha():
+            print("The product price cannot be a string.")
+        else:
+            self.__product_price = product_price
+
+
+# p1 = Product("Wood", 10)
+#
+# print(p1.product_name, p1.product_price)
+# p1.product_name = 15
+# p1.product_price = "test"
+# print(p1.product_name, p1.product_price)
 # Data -------------------------------------------------------------------- #
 
 # Processing  ------------------------------------------------------------- #
