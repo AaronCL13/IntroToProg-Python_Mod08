@@ -12,6 +12,7 @@
 strFileName = 'products.txt'
 lstOfProductObjects = []
 
+
 class Product:
     """Stores data about a product:
 
