@@ -10,7 +10,7 @@
 
 # Data -------------------------------------------------------------------- #
 strFileName = 'products.txt'
-lstOfProductObjects = []
+# lstOfProductObjects = []
 
 
 class Product(object):
@@ -23,6 +23,7 @@ class Product(object):
         __init__(self, product_name="", product_price=0.0): initializes object with product name and product price
         product_name(self, product_name): sets product name
         product_price(self, product_price): sets product price
+        add_to_list(self, list_of_rows): adds product to list provided
     changelog: (When,Who,What)
         RRoot,1.1.2030,Created Class
         ALanphear,3.3.21,Modified code to complete assignment 8
@@ -57,6 +58,10 @@ class Product(object):
         else:
             self.__product_price = product_price
 
+    def add_to_list(self, list_of_rows):
+        row = {"Product": self.__product_name, "Price": self.__product_price}
+        list_of_rows.append(row)
+        return list_of_rows, "\nThe product has been added to your list!"
 
 # p1 = Product("Wood", 10)
 #
@@ -66,8 +71,10 @@ class Product(object):
 # print(p1.product_name, p1.product_price)
 # Data -------------------------------------------------------------------- #
 
+
 # Processing  ------------------------------------------------------------- #
 class FileProcessor:
+
     """Processes data to and from a file and a list of product objects:
 
     methods:
@@ -77,12 +84,46 @@ class FileProcessor:
 
     changelog: (When,Who,What)
         RRoot,1.1.2030,Created Class
-        <Your Name>,<Today's Date>,Modified code to complete assignment 8
+        ALanphear,3.4.21,Modified code to complete assignment 8
     """
-    pass
-    # TODO: Add Code to process data from a file
-    # TODO: Add Code to process data to a file
 
+    @staticmethod
+    def read_data_from_file(file_name, list_of_rows):
+        """ Reads data from a file into a list of dictionary rows
+
+        :param file_name: (string) with name of file:
+        :param list_of_rows: (list) you want filled with file data:
+        :return: (list) of dictionary rows
+        """
+        list_of_rows.clear()  # clear current data
+        file = open(file_name, "r")
+        for row in file:
+            product, price = row.split(",")
+            row = {"Product": product.strip(), "Price": str("%.2f" % float(price.strip()))}
+            list_of_rows.append(row)
+        file.close()
+        return list_of_rows
+
+    @staticmethod
+    def save_data_to_file(file_name, list_of_rows):
+        file = open(file_name, "w")
+        table = ""
+        for row in list_of_rows:
+            new_row = row["Product"] + "," + str(row["Price"]) + "\n"
+            table += new_row
+        file.write(table)
+        file.close()
+        return "\nCurrent list saved to your file!"
+
+
+# lstOfProductObjects = [{'Product': 'Wood', 'Price': 10}]
+# print(lstOfProductObjects)
+# p1 = Product("Nails", 5)
+# p1.add_to_list(lstOfProductObjects)
+# print(lstOfProductObjects)
+# FileProcessor.save_data_to_file(strFileName, lstOfProductObjects)
+# data = FileProcessor.read_data_from_file(strFileName, lstOfProductObjects)
+# print(data)
 # Processing  ------------------------------------------------------------- #
 
 # Presentation (Input/Output)  -------------------------------------------- #
