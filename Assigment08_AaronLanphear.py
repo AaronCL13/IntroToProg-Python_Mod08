@@ -10,7 +10,7 @@
 
 # Data -------------------------------------------------------------------- #
 strFileName = 'products.txt'
-# lstOfProductObjects = []
+lstOfProductObjects = []
 
 
 class Product(object):
@@ -18,15 +18,22 @@ class Product(object):
 
     properties:
         product_name: (string) with the product's  name
+
         product_price: (float) with the product's standard price
+
     methods:
         __init__(self, product_name="", product_price=0.0): initializes object with product name and product price
+
         product_name(self, product_name): sets product name
+
         product_price(self, product_price): sets product price
-        add_to_list(self, list_of_rows): adds product to list provided
+
+        add_to_list(self, list_of_rows): adds product to list provided -> list of products
+
     changelog: (When,Who,What)
         RRoot,1.1.2030,Created Class
         ALanphear,3.3.21,Modified code to complete assignment 8
+
     """
 
     # Constructor - Initializes each time an object is created
@@ -78,13 +85,14 @@ class FileProcessor:
     """Processes data to and from a file and a list of product objects:
 
     methods:
-        save_data_to_file(file_name, list_of_product_objects):
+        save_data_to_file(file_name, list_of_product_objects): saves list to a file
 
         read_data_from_file(file_name): -> (a list of product objects)
 
     changelog: (When,Who,What)
         RRoot,1.1.2030,Created Class
         ALanphear,3.4.21,Modified code to complete assignment 8
+
     """
 
     @staticmethod
@@ -94,6 +102,7 @@ class FileProcessor:
         :param file_name: (string) with name of file:
         :param list_of_rows: (list) you want filled with file data:
         :return: (list) of dictionary rows
+
         """
         list_of_rows.clear()  # clear current data
         file = open(file_name, "r")
@@ -106,6 +115,13 @@ class FileProcessor:
 
     @staticmethod
     def save_data_to_file(file_name, list_of_rows):
+        """ Saves data from a list to a file
+
+        :param file_name: (string) name of file
+        :param list_of_rows: (list) you want saved to file
+        :return: string message
+
+        """
         file = open(file_name, "w")
         table = ""
         for row in list_of_rows:
@@ -128,17 +144,87 @@ class FileProcessor:
 
 # Presentation (Input/Output)  -------------------------------------------- #
 class IO:
-    # TODO: Add docstring
-    pass
-    # TODO: Add code to show menu to user
-    # TODO: Add code to get user's choice
+    """ Performs input/output functions
+
+    methods:
+        print_menu_tasks(): display choice menu to user
+
+        read_data_from_file(file_name): -> (a list of product objects)
+
+    changelog: (When,Who,What)
+        ALanphear,3.5.21,Created Class
+
+    """
+
+    @staticmethod
+    def print_menu_tasks():
+        """  Display a menu of choices to the user
+
+        :return: nothing
+
+        """
+        print("""
+        Choice Menu
+        1) Display Current Data
+        2) Add Data to List
+        3) Save Data to File and Exit Program
+        """)
+        # print()  # extra line for looks
+
+    @staticmethod
+    def input_menu_choice():
+        """ Gets the menu choice from a user
+
+        :return: string
+
+        """
+        choice = str(input("What choice would you like to make? [1, 2, or 3] - ")).strip()
+        # print()  # extra line for looks
+        return choice
+
     # TODO: Add code to show the current data from the file to user
+
+    @staticmethod
+    def print_current_products_in_list(list_of_rows):
+        """ Shows the current products in the list of dictionaries rows
+
+        :param list_of_rows: (list) of rows you want to display
+        :return: nothing
+
+        """
+        print("******* The current Products in Your List are: *******")
+        for row in list_of_rows:
+            print("Product: " + row["Product"] + ' --- ' + "Price: " + str("%.2f" % (row["Price"])))
+        print("******************************************************")
+        print()  # Add an extra line for looks
+
     # TODO: Add code to get product data from user
+
+    @staticmethod
+    def input_new_product_and_price():
+        """ Accepts user input for new product and price
+
+        :return: product_name and product_price
+
+        """
+        product_name = input("What product would you like to add? - ")
+        product_price = input("What is the product's price? - ")
+        return product_name, product_price
+
+# IO.print_menu_tasks()
+# IO.input_menu_choice()
+# IO.print_current_products_in_list(lstOfProductObjects)
+# new_product, new_price = IO.input_new_product_and_price()
+# print(new_product, new_price)
+
+
 # Presentation (Input/Output)  -------------------------------------------- #
 
 # Main Body of Script  ---------------------------------------------------- #
 # TODO: Add Data Code to the Main body
 # Load data from file into a list of product objects when script starts
+
+
 # Show user a menu of options
 # Get user's menu option choice
     # Show user current data in the list of product objects
