@@ -108,7 +108,7 @@ class FileProcessor:
         file = open(file_name, "r")
         for row in file:
             product, price = row.split(",")
-            row = {"Product": product.strip(), "Price": str("%.2f" % float(price.strip()))}
+            row = {"Product": product.strip(), "Price": price.strip()}
             list_of_rows.append(row)
         file.close()
         return list_of_rows
@@ -178,9 +178,9 @@ class IO:
         :return: string
 
         """
-        choice = str(input("What choice would you like to make? [1, 2, or 3] - ")).strip()
-        # print()  # extra line for looks
-        return choice
+        user_choice = str(input("What choice would you like to make? [1, 2, or 3] - ")).strip()
+        print()  # extra line for looks
+        return user_choice
 
     # TODO: Add code to show the current data from the file to user
 
@@ -194,9 +194,9 @@ class IO:
         """
         print("******* The current Products in Your List are: *******")
         for row in list_of_rows:
-            print("Product: " + row["Product"] + ' --- ' + "Price: " + str("%.2f" % (row["Price"])))
+            print("Product: " + row["Product"] + ' --- ' + "Price: " + str("$%.2f" % float((row["Price"]))))
         print("******************************************************")
-        print()  # Add an extra line for looks
+        # print()  # Add an extra line for looks
 
     # TODO: Add code to get product data from user
 
@@ -204,12 +204,12 @@ class IO:
     def input_new_product_and_price():
         """ Accepts user input for new product and price
 
-        :return: product_name and product_price
+        :return: product and price
 
         """
-        product_name = input("What product would you like to add? - ")
-        product_price = input("What is the product's price? - ")
-        return product_name, product_price
+        product = input("What product would you like to add? - ")
+        price = float(input("What is the product's price? - "))
+        return product, price
 
 # IO.print_menu_tasks()
 # IO.input_menu_choice()
@@ -222,13 +222,26 @@ class IO:
 
 # Main Body of Script  ---------------------------------------------------- #
 # TODO: Add Data Code to the Main body
+
 # Load data from file into a list of product objects when script starts
-
-
-# Show user a menu of options
-# Get user's menu option choice
+FileProcessor.read_data_from_file(strFileName, lstOfProductObjects)
+# print(lstOfProductObjects)
+while True:
+    # Show user a menu of options
+    IO.print_menu_tasks()
+    # Get user's menu option choice
+    choice = IO.input_menu_choice()
     # Show user current data in the list of product objects
+    if choice == "1":
+        IO.print_current_products_in_list(lstOfProductObjects)
     # Let user add data to the list of product objects
+    if choice == "2":
+        product_name, product_price = IO.input_new_product_and_price()
+        new_product = Product(product_name, product_price)
+        status = new_product.add_to_list(lstOfProductObjects)[1]
+        print(status)
+
+
     # let user save current data to file and exit program
 
 # Main Body of Script  ---------------------------------------------------- #
