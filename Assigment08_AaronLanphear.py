@@ -5,7 +5,10 @@
 # ChangeLog (Who,When,What):
 # RRoot,1.1.2030,Created started script
 # RRoot,1.1.2030,Added pseudo-code to start assignment 8
-# ALanphear,3.3.21,Modified code to complete assignment 8
+# ALanphear,3.3.21,Modified code to complete assignment 8 - Product Class
+# ALanphear,3.4.21,Modified code to complete assignment 8 - Processing Class
+# ALanphear,3.5.21,Modified code to complete assignment 8 - IO Class/Main Body
+# ALanphear,3.6.21,Modified code to complete assignment 8 - Main Body
 # ------------------------------------------------------------------------ #
 
 # Data -------------------------------------------------------------------- #
@@ -69,13 +72,6 @@ class Product(object):
         row = {"Product": self.__product_name, "Price": self.__product_price}
         list_of_rows.append(row)
         return list_of_rows, "\nThe product has been added to your list!"
-
-# p1 = Product("Wood", 10)
-#
-# print(p1.product_name, p1.product_price)
-# p1.product_name = 15
-# p1.product_price = "test"
-# print(p1.product_name, p1.product_price)
 # Data -------------------------------------------------------------------- #
 
 
@@ -105,13 +101,12 @@ class FileProcessor:
 
         """
         list_of_rows.clear()  # clear current data
-        file = open(file_name, "r")
-        for row in file:
-            product, price = row.split(",")
-            row = {"Product": product.strip(), "Price": price.strip()}
-            list_of_rows.append(row)
-        file.close()
-        return list_of_rows
+        with open(file_name, "r") as f:
+            for row in f:
+                product, price = row.split(",")
+                row = {"Product": product.strip(), "Price": price.strip()}
+                list_of_rows.append(row)
+            return list_of_rows
 
     @staticmethod
     def save_data_to_file(file_name, list_of_rows):
@@ -122,25 +117,15 @@ class FileProcessor:
         :return: string message
 
         """
-        file = open(file_name, "w")
-        table = ""
-        for row in list_of_rows:
-            new_row = row["Product"] + "," + str(row["Price"]) + "\n"
-            table += new_row
-        file.write(table)
-        file.close()
-        return "\nCurrent list saved to your file!"
-
-
-# lstOfProductObjects = [{'Product': 'Wood', 'Price': 10}]
-# print(lstOfProductObjects)
-# p1 = Product("Nails", 5)
-# p1.add_to_list(lstOfProductObjects)
-# print(lstOfProductObjects)
-# FileProcessor.save_data_to_file(strFileName, lstOfProductObjects)
-# data = FileProcessor.read_data_from_file(strFileName, lstOfProductObjects)
-# print(data)
+        with open(file_name, "w") as f:
+            table = ""
+            for row in list_of_rows:
+                new_row = row["Product"] + "," + str(row["Price"]) + "\n"
+                table += new_row
+            f.write(table)
+            return "Current list saved to your file!"
 # Processing  ------------------------------------------------------------- #
+
 
 # Presentation (Input/Output)  -------------------------------------------- #
 class IO:
@@ -169,7 +154,6 @@ class IO:
         2) Add Data to List
         3) Save Data to File and Exit Program
         """)
-        # print()  # extra line for looks
 
     @staticmethod
     def input_menu_choice():
@@ -181,8 +165,6 @@ class IO:
         user_choice = str(input("What choice would you like to make? [1, 2, or 3] - ")).strip()
         print()  # extra line for looks
         return user_choice
-
-    # TODO: Add code to show the current data from the file to user
 
     @staticmethod
     def print_current_products_in_list(list_of_rows):
@@ -198,8 +180,6 @@ class IO:
         print("******************************************************")
         # print()  # Add an extra line for looks
 
-    # TODO: Add code to get product data from user
-
     @staticmethod
     def input_new_product_and_price():
         """ Accepts user input for new product and price
@@ -210,39 +190,38 @@ class IO:
         product = input("What product would you like to add? - ")
         price = float(input("What is the product's price? - "))
         return product, price
-
-# IO.print_menu_tasks()
-# IO.input_menu_choice()
-# IO.print_current_products_in_list(lstOfProductObjects)
-# new_product, new_price = IO.input_new_product_and_price()
-# print(new_product, new_price)
-
-
 # Presentation (Input/Output)  -------------------------------------------- #
 
+
 # Main Body of Script  ---------------------------------------------------- #
-# TODO: Add Data Code to the Main body
+def main():
+    # Load data from file into a list of product objects when script starts
+    FileProcessor.read_data_from_file(strFileName, lstOfProductObjects)
+    choice = ""
+    while choice != "3":
+        # Show user a menu of options
+        IO.print_menu_tasks()
+        # Get user's menu option choice
+        choice = IO.input_menu_choice()
+        # Show user current data in the list of product objects
+        if choice == "1":
+            IO.print_current_products_in_list(lstOfProductObjects)
+        # Let user add data to the list of product objects
+        elif choice == "2":
+            new_product_name, new_product_price = IO.input_new_product_and_price()
+            new_product = Product(new_product_name, new_product_price)
+            status = new_product.add_to_list(lstOfProductObjects)[1]
+            print(status)
+        # let user save current data to file and exit program
+        elif choice == "3":
+            status = FileProcessor.save_data_to_file(strFileName, lstOfProductObjects)
+            print(status, "Goodbye!")
+        else:
+            print(choice, "is not a valid option! Please try again.")
 
-# Load data from file into a list of product objects when script starts
-FileProcessor.read_data_from_file(strFileName, lstOfProductObjects)
-# print(lstOfProductObjects)
-while True:
-    # Show user a menu of options
-    IO.print_menu_tasks()
-    # Get user's menu option choice
-    choice = IO.input_menu_choice()
-    # Show user current data in the list of product objects
-    if choice == "1":
-        IO.print_current_products_in_list(lstOfProductObjects)
-    # Let user add data to the list of product objects
-    if choice == "2":
-        product_name, product_price = IO.input_new_product_and_price()
-        new_product = Product(product_name, product_price)
-        status = new_product.add_to_list(lstOfProductObjects)[1]
-        print(status)
 
-
-    # let user save current data to file and exit program
-
+# Run the program
+main()
+input("\nPress [Enter] to Exit.")
 # Main Body of Script  ---------------------------------------------------- #
 

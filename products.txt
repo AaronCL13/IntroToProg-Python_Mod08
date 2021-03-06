@@ -1,2 +1,9 @@
 Wood,10
 Nails,5
+Box,9.0
+test,4.0
+test2,8.0
+test3,4.0
+absdb,4.0
+testaeat,6.0
+test4,6.0
