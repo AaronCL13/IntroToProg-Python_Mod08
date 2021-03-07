@@ -8,7 +8,7 @@
 # ALanphear,3.3.21,Modified code to complete assignment 8 - Product Class
 # ALanphear,3.4.21,Modified code to complete assignment 8 - Processing Class
 # ALanphear,3.5.21,Modified code to complete assignment 8 - IO Class/Main Body
-# ALanphear,3.6.21,Modified code to complete assignment 8 - Main Body
+# ALanphear,3.6.21,Modified code to complete assignment 8 - Main Body/Error Handling
 # ------------------------------------------------------------------------ #
 
 # Data -------------------------------------------------------------------- #
@@ -150,9 +150,9 @@ class IO:
         """
         print("""
         Choice Menu
-        1) Display Current Data
-        2) Add Data to List
-        3) Save Data to File and Exit Program
+        1) Display Current Product List
+        2) Add Product to List
+        3) Save Product List to File and Exit Program
         """)
 
     @staticmethod
@@ -196,7 +196,13 @@ class IO:
 # Main Body of Script  ---------------------------------------------------- #
 def main():
     # Load data from file into a list of product objects when script starts
-    FileProcessor.read_data_from_file(strFileName, lstOfProductObjects)
+    try:
+        FileProcessor.read_data_from_file(strFileName, lstOfProductObjects)
+    except FileNotFoundError:  # Display this error if the file has not been created yet
+        print()
+        print("...There was no file to load data from...")
+        print("...Enter products so a file can be saved...")
+    # else:  # Run this code if no errors
     choice = ""
     while choice != "3":
         # Show user a menu of options
@@ -204,24 +210,31 @@ def main():
         # Get user's menu option choice
         choice = IO.input_menu_choice()
         # Show user current data in the list of product objects
-        if choice == "1":
+        if choice == "1" and lstOfProductObjects == []:
+            print("...There is no current list to display...")
+            print("...You must first add a product to your list...")
+        elif choice == "1":
             IO.print_current_products_in_list(lstOfProductObjects)
         # Let user add data to the list of product objects
         elif choice == "2":
-            new_product_name, new_product_price = IO.input_new_product_and_price()
-            new_product = Product(new_product_name, new_product_price)
-            status = new_product.add_to_list(lstOfProductObjects)[1]
-            print(status)
+            try:
+                new_product_name, new_product_price = IO.input_new_product_and_price()
+            except ValueError:
+                print("\n...The price must be a valid number...")
+                print("...Please make your choice again...")
+            else:
+                new_product = Product(new_product_name, new_product_price)
+                status = new_product.add_to_list(lstOfProductObjects)[1]
+                print(status)
         # let user save current data to file and exit program
         elif choice == "3":
             status = FileProcessor.save_data_to_file(strFileName, lstOfProductObjects)
             print(status, "Goodbye!")
         else:
-            print(choice, "is not a valid option! Please try again.")
+            print("'" + choice + "' " + "is not a valid option! Please try again.")
 
 
 # Run the program
 main()
 input("\nPress [Enter] to Exit.")
 # Main Body of Script  ---------------------------------------------------- #
-
