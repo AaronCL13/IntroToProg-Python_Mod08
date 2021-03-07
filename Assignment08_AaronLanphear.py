@@ -100,7 +100,6 @@ class FileProcessor:
         :return: (list) of dictionary rows
 
         """
-        list_of_rows.clear()  # clear current data
         with open(file_name, "r") as f:
             for row in f:
                 product, price = row.split(",")
@@ -174,7 +173,7 @@ class IO:
         :return: nothing
 
         """
-        print("******* The current Products in Your List are: *******")
+        print("******* The Current Products in Your List are: *******")
         for row in list_of_rows:
             print("Product: " + row["Product"] + ' --- ' + "Price: " + str("$%.2f" % float((row["Price"]))))
         print("******************************************************")
@@ -202,7 +201,6 @@ def main():
         print()
         print("...There was no file to load data from...")
         print("...Enter products so a file can be saved...")
-    # else:  # Run this code if no errors
     choice = ""
     while choice != "3":
         # Show user a menu of options
@@ -219,6 +217,10 @@ def main():
         elif choice == "2":
             try:
                 new_product_name, new_product_price = IO.input_new_product_and_price()
+                if new_product_name.isnumeric():
+                    print("\n...The product name cannot be a number...")
+                    print("...Please make your choice again...")
+                    continue
             except ValueError:
                 print("\n...The price must be a valid number...")
                 print("...Please make your choice again...")
