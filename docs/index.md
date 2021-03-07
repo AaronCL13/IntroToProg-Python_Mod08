@@ -45,6 +45,7 @@ The second class created is pretty self-explanatory (Figure 6). It processes fil
 *Figure 6: Creating the FileProcessor class*
 
 ![Figure 7](7.png "Figure 7")
+
 *Figure 7: The read and save file processing methods*
 
 ## The IO Class
