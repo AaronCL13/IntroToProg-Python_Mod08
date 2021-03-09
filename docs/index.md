@@ -80,7 +80,7 @@ The first step is to call on the file processing function that reads data from t
 
 *Figure 12: Reading the file with error handling*
 
-Next, I created a while loop that will check to see if the user had chosen “3”, which would end the program. To do this I started by first creating an empty string variable. If they have not chosen “3”, then the program will call on the print menu and input functions (Figure 13).  The users choice is taken from the input return and stored in the “choice” variable.
+Next, I created a while loop that will check to see if the user had chosen “3”, which would end the program. To do this I started by first creating a choice variable as “None”.  If they have not chosen “3”, then the program will call on the print menu and input functions (Figure 13).  The users choice is taken from the input return and stored in the “choice” variable.
 
 ![Figure 13](13.png "Figure 13")
 
