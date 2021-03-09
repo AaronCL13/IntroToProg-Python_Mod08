@@ -201,7 +201,7 @@ def main():
         print()
         print("...There was no file to load data from...")
         print("...Enter products so a file can be saved...")
-    choice = ""
+    choice = None
     while choice != "3":
         # Show user a menu of options
         IO.print_menu_tasks()
